@@ -1,0 +1,16 @@
+{
+  "author": "Pascal Deschenes <pdeschen@rassemblr.com> (http://blog.rassemblr.com)",
+  "name": "camelot",
+  "description": "A node wrapper for webcam controller",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pdeschen/camelot.git"
+  },
+  "main": "camelot",
+  "engines": {
+    "node": "~v0.4.5"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

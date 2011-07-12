@@ -1,0 +1,7 @@
+h2. Requirements
+
+This module assumes you have a working binary of fswebcam along with font management library and associated font path definition (e.g. GDFONTPATH )
+
+h2. Todos
+
+* Instead of relying on fswebcam binary, implement node native module.
