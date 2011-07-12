@@ -2,6 +2,27 @@ h2. Requirements
 
 This module assumes you have a working binary of fswebcam along with font management library and associated font path definition (e.g. GDFONTPATH )
 
+h2. Examples
+
+<pre>
+var Camelot = require('./camelot.js');
+
+var camelot = new Camelot( {
+  'rotate' : '180',
+  'flip' : 'v'
+});
+
+camelot.on('frame', function (image) {
+  console.log('frame received!');
+});
+
+camelot.grab( {
+  'title' : 'Camelot',
+  'font' : 'Arial:24',
+  'frequency' : 1    
+});
+</pre>
+
 h2. Todos
 
 * Instead of relying on fswebcam binary, implement node native module.
