@@ -1,4 +1,4 @@
-A node wrapper for webcam controller providing configurable async frame grabbing. Grab frames, receive frame events!
+A "node":http://nodejs.org wrapper for webcam controller providing configurable async frame grabbing. Grab frames, receive frame events!
 
 h2. Requirements
 
@@ -28,6 +28,26 @@ camelot.grab( {
   'frequency' : 1    
 });
 </pre>
+
+h2. Features
+
+* Infinit frame grabbing based on frequency (in sec).
+* Banner
+* Png/Jpeg
+* Rotation
+* Resolution
+
+h2. Installation
+
+h3. Git Clone
+
+@$ git clone git://github.com/pdeschen/camelot.git@
+@$ cd camelot@
+@$ sudo npm install .@
+
+h3. Install from npm
+
+@$ sudo npm install camelot [-g]@
 
 h2. Todos
 
