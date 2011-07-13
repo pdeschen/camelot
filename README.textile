@@ -1,8 +1,8 @@
 A "node":http://nodejs.org wrapper for webcam controller providing configurable async frame grabbing. Grab frames, receive frame events!
 
-h2. Requirements
+h2. How it works
 
-This module assumes you have a working binary of fswebcam along with font management library and associated font path definition (e.g. GDFONTPATH )
+Once grabbing starts ( _grab()_ ), frames are periodically grabbed off the web cam ( _/dev/videoX_ ) depending on the provided frequency option. Within Camelot, once a frame is grabbed, an event is emitted containing the binary frame. Also, instead of relying on event emission, a callback can also be passed to the grab() function, which will apply the callback upon frame grabbing. As per convensional wisdom, an error event will also be emitted upon Error.    
 
 h2. Examples
 
@@ -39,11 +39,13 @@ h2. Features
 
 h2. Installation
 
+h3. Requirements
+
+This module assumes you have a working binary of fswebcam along with font management library and associated font path definition (e.g. GDFONTPATH). This module has been solely tested on Ubuntu with a "Rocketfish 8MP USB HD RF-HDWEB":http://www.rocketfishproducts.com/products/computers/RF-HDWEB.html webcam but should work with any webcam supported by the v4l library.
+
 h3. Git Clone
 
 @$ git clone git://github.com/pdeschen/camelot.git@
-@$ cd camelot@
-@$ sudo npm install .@
 
 h3. Install from npm
 
@@ -51,4 +53,4 @@ h3. Install from npm
 
 h2. Todos
 
-* Instead of relying on fswebcam binary, implement node native module.
+* Instead of relying on fswebcam binary, implement node native module using v4l.
