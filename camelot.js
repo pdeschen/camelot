@@ -3,7 +3,6 @@ var spawn = require('child_process').spawn, sys = require('sys'), uuid = require
 var location = '/tmp/test/';
 
 var Camelot = function (options) {
-  // this.emitter = new events.EventEmitter();
   this.emitter = events.EventEmitter.call(this);
   this.opts = mixin(options, {
     'resolution' : '1280x720',
@@ -11,8 +10,8 @@ var Camelot = function (options) {
     'greyscale' : false,
     'title' : 'Camelot!',
     'font' : 'Arial:12',
-    'banner': false,
-    'shadow' : false;
+    'banner' : false,
+    'shadow' : false
   });
   return this;
 };
@@ -42,27 +41,15 @@ Camelot.prototype.grab = function (options, callback) {
         break;
     }
   }
-  // console.log(arguments);
-
   var iterator = function (arguments, emitter) {
-    
+
     var args = arguments.slice();
 
     var file = location + uuid() + format;
 
-    // console.log(file);
-    console.log(args);
     args.push('--save', file);
 
     var fswebcam = spawn('fswebcam', args);
-
-    fswebcam.stdout.on('data', function (data) {
-    // console.log('stdout: ' + data);
-      });
-
-    fswebcam.stderr.on('data', function (data) {
-    // console.log('stderr: ' + data);
-      });
 
     fswebcam.on('exit', function (code) {
 
@@ -70,15 +57,16 @@ Camelot.prototype.grab = function (options, callback) {
 
         if (err) {
           emitter.emit('error', err);
-          callback.call(err);
+          if (callback) {
+            callback.call(err);
+          }
+        } else {
+          emitter.emit('frame', data);
+          if (callback) {
+            callback(data);
+          }
         }
-
-        console.log("emitting");
-        emitter.emit('frame', data);
-        if (callback) {
-          callback(data);
-        }
-      }); /* emit image */
+      });
     });
   };
 

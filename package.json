@@ -1,16 +1,23 @@
 {
   "author": "Pascal Deschenes <pdeschen@rassemblr.com> (http://blog.rassemblr.com)",
   "name": "camelot",
-  "description": "A node wrapper for webcam controller",
+  "description": "A node wrapper for webcam controller providing configurable async frame grabbing.",
   "version": "0.0.1",
+  "keywords": ["webcam", "cam", "frame"],
   "repository": {
     "type": "git",
     "url": "git://github.com/pdeschen/camelot.git"
   },
+  "bugs": {
+    "email": "pdeschen+camelot@gmail.com",
+    "url": "http://github.com/pdeschen/camelot/issues"
+  },
   "main": "camelot",
   "engines": {
-    "node": "~v0.4.5"
+    "node": "v0.4.5"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-uuid": "1.2.x"
+  },
   "devDependencies": {}
 }
