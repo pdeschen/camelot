@@ -1,3 +1,5 @@
+A node wrapper for webcam controller providing configurable async frame grabbing. Grab frames, receive frame events!
+
 h2. Requirements
 
 This module assumes you have a working binary of fswebcam along with font management library and associated font path definition (e.g. GDFONTPATH )
