@@ -1,5 +1,5 @@
 var spawn = require('child_process').spawn, sys = require('sys'), uuid = require('node-uuid'), events =
-  require('events');
+  require('events'), fs = require('fs');
 var location = '/tmp/test/';
 
 var Camelot = function (options) {
@@ -10,50 +10,107 @@ var Camelot = function (options) {
     'greyscale' : false,
     'title' : 'Camelot!',
     'font' : 'Arial:12',
-    'banner' : false,
-    'shadow' : false
+    'controls' : {
+      'focus' : 'auto',
+      'brightness' : 0
+    }
   });
   return this;
 };
 
 sys.inherits(Camelot, events.EventEmitter);
 
+Camelot.prototype.reset = function () {
+  this.opts = {
+    'resolution' : '1280x720',
+    'png' : '1',
+    'greyscale' : false,
+    'title' : 'Camelot!',
+    'font' : 'Arial:12'
+  };
+  return this.opts;
+};
+
 Camelot.prototype.grab = function (options, callback) {
 
   mixin(options, this.opts);
 
-  arguments = [];
-  var format = ".jpg";
+  var iterator = function (self) {
 
-  for ( var option in this.opts) {
-    switch (option) {
-      case 'greyscale':
-        if (this.opts[option] === true) {
+    var emitter = self.emitter;
+    var opts = self.opts;
+
+    var arguments = [];
+    var format = ".jpg";
+    console.log('opts', opts);
+
+    for ( var option in opts) {
+      switch (option) {
+        case 'greyscale':
+          if (opts[option] === true) {
+            arguments.push("--" + option);
+            arguments.push(opts[option]);
+          }
+          break;
+        case 'png':
+          format = ".png";
           arguments.push("--" + option);
-          arguments.push(this.opts[option]);
-        }
-        break;
-      case 'png':
-        format = ".png";
-      default:
-        arguments.push("--" + option);
-        arguments.push(this.opts[option]);
-        break;
+          arguments.push(opts[option]);
+        case 'controls':
+          for ( var control in opts[option]) {
+            switch (control) {
+              case 'brightness':
+                var brightness = opts['controls']['brightness'] > 127 ? 127 : opts['controls']['brightness'];
+                brightness = brightness < -128 ? -128 : brightness;
+                arguments.push("--set");
+                arguments.push("Brightness=" + brightness + "");
+                continue;
+              case 'contrast':
+                var contrast = opts['controls']['contrast'] > 255 ? 255 : opts['controls']['contrast'];
+                contrast = contrast < 60 ? 60 : contrast;
+                arguments.push("--set");
+                arguments.push("Contrast=" + contrast + "");
+                continue;
+              case 'focus':
+                if (opts['controls']['focus'] === 'auto') {
+                  arguments.push("--set");
+                  arguments.push("Focus, Auto=1");
+                } else {
+                  var focus = opts['controls']['focus'] > 200 ? 200 : opts['controls']['focus'];
+                  focus = focus < 0 ? 0 : focus;
+                  arguments.push("--set");
+                  arguments.push("Focus, Auto=0");
+                  arguments.push("--set");
+                  arguments.push("Focus (absolute)=" + focus + "");
+                }
+                continue;
+              default:
+                continue;
+            }
+          }
+          break;
+        default:
+          arguments.push("--" + option);
+          arguments.push(opts[option]);
+          break;
+      }
     }
-  }
-  var iterator = function (arguments, emitter) {
-
-    var args = arguments.slice();
 
     var file = location + uuid() + format;
 
-    args.push('--save', file);
+    arguments.push('--save', file);
 
-    var fswebcam = spawn('fswebcam', args);
+    console.log('with', arguments);
+
+    var fswebcam = spawn('fswebcam', arguments);
+
+    fswebcam.stderr.on('data', function (data) {
+      console.log('stdout: ' + data);
+    });
 
     fswebcam.on('exit', function (code) {
 
-      require('fs').readFile(file, function (err, data) {
+      fs.readFile(file, function (err, data) {
 
         if (err) {
           emitter.emit('error', err);
@@ -61,7 +118,9 @@ Camelot.prototype.grab = function (options, callback) {
             callback.call(err);
           }
         } else {
+
           emitter.emit('frame', data);
+          fs.unlink(file);
           if (callback) {
             callback(data);
           }
@@ -71,11 +130,14 @@ Camelot.prototype.grab = function (options, callback) {
   };
 
   if (this.opts.frequency) {
-    setInterval(iterator, 1000 * this.opts.frequency, arguments, this.emitter);
+    setInterval(iterator, 1000 * this.opts.frequency, this);
   } else {
     iterator(arguments, this.emitter);
   }
+};
 
+Camelot.prototype.update = function (options) {
+  return mixin(options, this.opts);
 };
 
 var mixin = function (source, destination) {
