@@ -2,7 +2,7 @@ A "node":http://nodejs.org wrapper for webcam controller providing configurable 
 
 h2. How it works
 
-Once grabbing starts ( _grab()_ ), frames are periodically grabbed off the web cam ( _/dev/videoX_ ) depending on the provided frequency option. Within Camelot, once a frame is grabbed, an event is emitted containing the binary frame. Also, instead of relying on event emission, a callback can also be passed to the grab() function, which will apply the callback upon frame grabbing. As per convensional wisdom, an error event will also be emitted upon Error.    
+Once grabbing starts ( _grab()_ ), frames are periodically grabbed off the web cam ( _/dev/videoX_ ) depending on the provided frequency option. Within Camelot, once a frame is grabbed, an event is emitted ( _on('frame', ...)_ ) containing the binary frame. Also, instead of relying on event emission, a callback can also be passed to the grab() function, which will apply the callback upon frame grabbing. As per convensional wisdom, an error event will also be emitted upon Error ( _on('error', ...)_ ).
 
 h2. Examples
 
