@@ -1,6 +1,7 @@
 var spawn = require('child_process').spawn, sys = require('sys'), uuid = require('node-uuid'), events =
   require('events'), fs = require('fs');
-var location = '/tmp/test/';
+var location = '/tmp/camelot/';
+fs.mkdir(location, 0777);
 
 var Camelot = function (options) {
   this.emitter = events.EventEmitter.call(this);
@@ -12,7 +13,6 @@ var Camelot = function (options) {
     'font' : 'Arial:12',
     'controls' : {
       'focus' : 'auto',
-      'brightness' : 0
     }
   });
   return this;
@@ -42,7 +42,6 @@ Camelot.prototype.grab = function (options, callback) {
 
     var arguments = [];
     var format = ".jpg";
-    console.log('opts', opts);
 
     for ( var option in opts) {
       switch (option) {
@@ -100,30 +99,38 @@ Camelot.prototype.grab = function (options, callback) {
 
     arguments.push('--save', file);
 
-    console.log('with', arguments);
-
     var fswebcam = spawn('fswebcam', arguments);
-
-    fswebcam.stderr.on('data', function (data) {
-      console.log('stdout: ' + data);
-    });
+    /*
+     * fswebcam.stderr.on('data', function (data) { console.log('stdout: ' +
+     * data); });
+     */
 
     fswebcam.on('exit', function (code) {
 
-      fs.readFile(file, function (err, data) {
-
-        if (err) {
+      require('path').exists(file, function (exists) {
+        if (!exists) {
+          var err = new Error('Frame file unavailable.');
           emitter.emit('error', err);
           if (callback) {
             callback.call(err);
           }
         } else {
+          fs.readFile(file, function (err, data) {
 
-          emitter.emit('frame', data);
-          fs.unlink(file);
-          if (callback) {
-            callback(data);
-          }
+            if (err) {
+              emitter.emit('error', err);
+              if (callback) {
+                callback.call(err);
+              }
+            } else {
+
+              emitter.emit('frame', data);
+              fs.unlink(file);
+              if (callback) {
+                callback(data);
+              }
+            }
+          });
         }
       });
     });

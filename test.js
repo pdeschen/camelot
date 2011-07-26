@@ -6,6 +6,7 @@ var camelot = new Camelot( {
 });
 var focus = 10;
 var brightness = -128;
+
 camelot.on('frame', function (image) {
   console.log('frame received!');
   var name = uuid();
@@ -23,6 +24,10 @@ camelot.on('frame', function (image) {
       'brightness' : brightness
     }
   });
+});
+
+camelot.on('error', function (error) {
+  console.log("error", error);
 });
 
 camelot.grab( {
