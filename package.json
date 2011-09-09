@@ -2,7 +2,7 @@
   "author": "Pascal Deschenes <pdeschen@rassemblr.com> (http://blog.rassemblr.com)",
   "name": "camelot",
   "description": "A node wrapper for webcam controller providing configurable async frame grabbing.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": ["webcam", "cam", "frame"],
   "repository": {
     "type": "git",
@@ -17,7 +17,8 @@
     "node": "v0.4.5"
   },
   "dependencies": {
-    "node-uuid": "1.2.x"
+    "node-uuid": "1.2.x",
+    "winston": "0.3.3"
   },
   "devDependencies": {}
 }

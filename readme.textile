@@ -1,4 +1,4 @@
-A "node":http://nodejs.org wrapper for webcam controller providing configurable async frame grabbing. Grab frames, receive frame events!
+A "node":http://nodejs.org wrapper for "fswebcam":https://github.com/fsphil/fswebcam controller providing configurable async frame grabbing. Grab frames, receive frame events!
 
 h2. How it works
 
@@ -37,11 +37,25 @@ h2. Features
 * Rotation
 * Resolution
 
+h3. Supported Capture Options
+
+<pre>
+    focus : 'auto',
+    brightness : 0,
+    contrast : 136,
+    saturation : 150,
+    hue : 0,
+    gamma : 100,
+    sharpness : 50
+</pre>
+
+with default values.
+
 h2. Installation
 
 h3. Requirements
 
-This module assumes you have a working binary of fswebcam along with font management library and associated font path definition (e.g. GDFONTPATH). This module has been solely tested on Ubuntu with a "Rocketfish 8MP USB HD RF-HDWEB":http://www.rocketfishproducts.com/products/computers/RF-HDWEB.html webcam but should work with any webcam supported by the v4l library.
+This module assumes you have a working binary of "fswebcam":https://github.com/fsphil/fswebcam along with font management library and associated font path definition (e.g. GDFONTPATH). This module has been solely tested on Ubuntu with a "Rocketfish 8MP USB HD RF-HDWEB":http://www.rocketfishproducts.com/products/computers/RF-HDWEB.html webcam but should work with any webcam supported by the v4l library.
 
 h3. Git Clone
 
