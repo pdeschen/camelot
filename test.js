@@ -10,10 +10,10 @@ var brightness = -128;
 camelot.on('frame', function (image) {
   console.log('frame received!');
   var name = uuid();
-  require('fs').writeFile('/tmp/test/' + name + '.png', image, function (err) {
+  require('fs').writeFile('/tmp/' + name + '.png', image, function (err) {
     if (err)
       throw err;
-    console.log('It\'s saved!');
+    console.log('saved!');
   });
   focus += 10;
   brightness += 10;
