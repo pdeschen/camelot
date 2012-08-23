@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/pdeschen/camelot.png)](http://travis-ci.org/pdeschen/camelot)
 A "node":http://nodejs.org wrapper for "fswebcam":https://github.com/fsphil/fswebcam controller providing configurable async frame grabbing. Grab frames, receive frame events!
 
 h2. How it works
