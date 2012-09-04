@@ -1,5 +1,5 @@
 Camelot [![build status](https://secure.travis-ci.org/pdeschen/camelot.png)](http://travis-ci.org/pdeschen/camelot)
--------
+=======
 
 A [node](http://nodejs.org) wrapper for
 [fswebcam](https://github.com/fsphil/fswebcam) controller providing
@@ -8,7 +8,7 @@ configurable async frame grabbing. Grab frames, receive frame events!
 How it works
 ------------
 
-Once grabbing starts (`grab`), frames are periodically grabbed off the
+Once grabbing starts (`grab()`), frames are periodically grabbed off the
 web cam (`/dev/videoX`) depending on the provided frequency option.
 Within Camelot, once a frame is grabbed, an event is emitted ( `on
 (‘frame’, …)` ) containing the binary frame. Also, instead of relying
@@ -52,6 +52,8 @@ Features
 
 ### Supported Capture Options
 
+with default values.
+
         focus : 'auto',
         brightness : 0,
         contrast : 136,
@@ -60,17 +62,17 @@ Features
         gamma : 100,
         sharpness : 50
 
-with default values.
 
 ChangeLog
 ---------
 
 ### 0.0.4
-* Port event emitting to v0.8
-** event emitting
-** sys v. util
-** path v. fs
-** travis continuous integration
+
+* v0.8 migration 
+    * event emitting
+    * sys v. util
+    * path v. fs
+* travis continuous integration
 
 ### 0.0.3
 * Initial public release
@@ -109,7 +111,7 @@ License
 
 (MIT license)
 
-Copyright © 2011 Pascal Deschenes
+Copyright © 2011-2012 Pascal Deschenes
 [pdeschen@gmail.com](mailto:pdeschen@gmail.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a
