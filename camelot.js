@@ -1,5 +1,5 @@
 var spawn = require('child_process').spawn, util = require('util'), uuid = require('node-uuid'), events =
-  require('events'), fs = require('fs'), path = require('path'), winston = require('winston');
+  require('events'), fs = require('fs'), winston = require('winston');
 var location = '/tmp/camelot/';
 fs.mkdir(location, 0777);
 
@@ -22,7 +22,6 @@ var DEFAULT_OPTIONS = {
 };
 
 var Camelot = function (options) {
-  this.emitter = events.EventEmitter.call(this);
   this.opts = mixin(options, DEFAULT_OPTIONS);
   winston.info('init options: ' + JSON.stringify(this.opts));
   return this;
@@ -45,10 +44,11 @@ Camelot.prototype.grab =
     var grabber =
       function () {
 
+        events.EventEmitter.call(this);
         var self = this;
-        self.emitter = self.emitter;
         self.arguments = [];
         self.format = ".jpg";
+
 
         fs.exists(this.opts.device, function (exists) {
 
@@ -149,10 +149,10 @@ Camelot.prototype.grab =
 
               fswebcam.on('exit', function (code) {
 
-                require('path').exists(file, function (exists) {
+                fs.exists(file, function (exists) {
                   if (!exists) {
                     var err = new Error('Frame file unavailable.');
-                    self.emitter.emit('error', err);
+                    self.emit('error', err);
                     if (callback) {
                       callback.call(err);
                     }
@@ -160,13 +160,13 @@ Camelot.prototype.grab =
                     fs.readFile(file, function (err, data) {
 
                       if (err) {
-                        self.emitter.emit('error', err);
+                        self.emit('error', err);
                         if (callback) {
                           callback.call(err);
                         }
                       } else {
 
-                        self.emitter.emit('frame', data);
+                        self.emit('frame', data);
                         fs.unlink(file);
                         if (callback) {
                           callback(data);
@@ -182,7 +182,7 @@ Camelot.prototype.grab =
             var message = 'device not found (' + self.opts.device + ').';
             winston.error(message);
             var err = new Error(message);
-            self.emitter.emit('error.device', err);
+            self.emit('error.device', err);
             if (callback) {
               callback.call(err);
             }
@@ -243,4 +243,7 @@ var mixin = function (source, destination) {
   return destination;
 };
 
+if (process.versions.node.split(".")[1] < 8 ){
+  fs.exists = require('path').exists;
+} 
 module.exports = Camelot;
