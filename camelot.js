@@ -50,7 +50,7 @@ Camelot.prototype.grab =
         self.arguments = [];
         self.format = ".jpg";
 
-        path.exists(this.opts.device, function (exists) {
+        fs.exists(this.opts.device, function (exists) {
 
           var p =
             function () {
