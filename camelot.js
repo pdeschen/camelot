@@ -1,9 +1,10 @@
 var spawn = require('child_process').spawn, util = require('util'), uuid = require('node-uuid'), events =
-  require('events'), fs = require('fs'), winston = require('winston');
+  require('events'), fs = require('fs'), logger = require('winston');
 var location = '/tmp/camelot/';
 fs.mkdir(location, 0777);
 
-var DEFAULT_OPTIONS = {
+var _options = {
+  verbose: true,
   device : '/dev/video1',
   resolution : '1280x720',
   png : '1',
@@ -22,24 +23,27 @@ var DEFAULT_OPTIONS = {
 };
 
 var Camelot = function (options) {
-  this.opts = mixin(options, DEFAULT_OPTIONS);
-  winston.info('init options: ' + JSON.stringify(this.opts));
+  this.opts = mixin(options, _options);
+  if (!this.opts.verbose) { 
+    logger.remove(logger.transports.Console);
+  }
+  logger.info('init options: ' + JSON.stringify(this.opts));
   return this;
 };
 
 util.inherits(Camelot, events.EventEmitter);
 
 Camelot.prototype.reset = function () {
-  this.opts = DEFAULT_OPTIONS;
-  winston.info('reset options: ' + JSON.stringify(this.opts));
-  return DEFAULT_OPTIONS;
+  this.opts = _options;
+  logger.info('reset options: ' + JSON.stringify(this.opts));
+  return _options;
 };
 
 Camelot.prototype.grab =
   function (options, callback) {
 
     this.opts = mixin(options, this.opts);
-    winston.info('with options: ' + JSON.stringify(this.opts));
+    logger.info('with options: ' + JSON.stringify(this.opts));
 
     var grabber =
       function () {
@@ -180,14 +184,14 @@ Camelot.prototype.grab =
 
           if (!exists) {
             var message = 'device not found (' + self.opts.device + ').';
-            winston.error(message);
+            logger.error(message);
             var err = new Error(message);
             self.emit('error.device', err);
             if (callback) {
               callback.call(err);
             }
             fs.watchFile(self.opts.device, function (curr, prev) {
-              winston.info("device status changed.");
+              logger.info("device status changed.");
               p.apply(self);
             });
             return;
@@ -207,7 +211,7 @@ Camelot.prototype.grab =
 
 Camelot.prototype.update = function (options) {
   this.opts = mixin(options, this.opts)
-  winston.info('update options: ' + JSON.stringify(this.opts));
+  logger.info('update options: ' + JSON.stringify(this.opts));
   return this.opts;
 };
 
