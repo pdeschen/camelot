@@ -1,14 +1,14 @@
+Camelot [![build status](https://secure.travis-ci.org/pdeschen/camelot.png)](http://travis-ci.org/pdeschen/camelot)
+-------
 
 A [node](http://nodejs.org) wrapper for
 [fswebcam](https://github.com/fsphil/fswebcam) controller providing
 configurable async frame grabbing. Grab frames, receive frame events!
 
-[![build status](https://secure.travis-ci.org/pdeschen/camelot.png)](http://travis-ci.org/pdeschen/camelot)
-
 How it works
 ------------
 
-Once grabbing starts ( *grab , frames are periodically grabbed off the
+Once grabbing starts (`grab`), frames are periodically grabbed off the
 web cam (`/dev/videoX`) depending on the provided frequency option.
 Within Camelot, once a frame is grabbed, an event is emitted ( `on
 (‘frame’, …)` ) containing the binary frame. Also, instead of relying
