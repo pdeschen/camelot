@@ -1,4 +1,4 @@
-var spawn = require('child_process').spawn, sys = require('sys'), uuid = require('node-uuid'), events =
+var spawn = require('child_process').spawn, util = require('util'), uuid = require('node-uuid'), events =
   require('events'), fs = require('fs'), path = require('path'), winston = require('winston');
 var location = '/tmp/camelot/';
 fs.mkdir(location, 0777);
@@ -28,7 +28,7 @@ var Camelot = function (options) {
   return this;
 };
 
-sys.inherits(Camelot, events.EventEmitter);
+util.inherits(Camelot, events.EventEmitter);
 
 Camelot.prototype.reset = function () {
   this.opts = DEFAULT_OPTIONS;
