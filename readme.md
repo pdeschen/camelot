@@ -50,9 +50,7 @@ Features
 -   Rotation
 -   Resolution
 
-### Supported Capture Options
-
-with default values.
+### Supported Capture Options (default values)
 
         focus : 'auto',
         brightness : 0,
@@ -61,7 +59,6 @@ with default values.
         hue : 0,
         gamma : 100,
         sharpness : 50
-
 
 ChangeLog
 ---------
@@ -75,6 +72,7 @@ ChangeLog
 * travis continuous integration
 
 ### 0.0.3
+
 * Initial public release
 
 Installation
@@ -89,6 +87,11 @@ management library and associated font path definition (e.g.
 [Rocketfish 8MP USB HD
 RF-HDWEB](http://www.rocketfishproducts.com/products/computers/RF-HDWEB.html)
 webcam but should work with any webcam supported by the v4l library.
+
+### Known supported webcams
+
+* Rocketfish 8MP USB HDRF-HDWEB
+* Lenovo x220 built-in
 
 ### Git Clone
 
