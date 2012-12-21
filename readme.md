@@ -20,7 +20,7 @@ convensional wisdom, an error event will also be emitted upon Error (
 Examples
 --------
 
-    var Camelot = require('./camelot.js');
+    var Camelot = require('camelot');
 
     var camelot = new Camelot( {
       'rotate' : '180',
